@@ -1,34 +1,17 @@
-#!/usr/bin/python3
-""" lazy_matrix_mul module """
-
-
+#!/usr/bin/python3.5
+"""
+Module composed by a function that multiplies 2 matrices
+"""
 import numpy as np
 
 
-def lazy_matrix_mul(prmMatrixA, prmMatrixB):
-    """ lazy_matrix_mul function
-    this function multiply one matrix by a second one
-    Attributes:
-        prmMatrixA: first matrix
-        prmMatrixB: second matrix
+def lazy_matrix_mul(m_a, m_b):
+    """ Function that multiplies 2 matrices
+    Args:
+        m_a: matrix a
+        m_b: matrix b
+    Returns:
+        result of the multiplication
     """
-    if prmMatrixA is None:
-        raise TypeError("m_a should be indicate")
-    if prmMatrixB is None:
-        raise TypeError("m_b should be indicate")
-    if not isinstance(prmMatrixA, list):
-        raise TypeError("m_a must be a list")
-    if not isinstance(prmMatrixB, list):
-        raise TypeError("m_b must be a list")
-    if not all(isinstance(ele, list) for ele in prmMatrixA):
-        raise TypeError("m_a must be a list of lists")
-    if not all(isinstance(ele, list) for ele in prmMatrixB):
-        raise TypeError("m_b must be a list of lists")
-    if len(prmMatrixA) == 0 or len(prmMatrixA[0]) == 0:
-        raise TypeError("m_a can't be empty")
-    if len(prmMatrixB) == 0 or len(prmMatrixB[0]) == 0:
-        raise TypeError("m_b can't be empty")
 
-    arr1 = np.array(prmMatrixA)
-    arr2 = np.array(prmMatrixB)
-    return np.matmul(arr1, arr2)
+    return (np.matmul(m_a, m_b))

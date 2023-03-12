@@ -1,29 +1,32 @@
 #!/usr/bin/python3
-""" text_indentation module """
+# -*- coding: utf-8 -*-
+"""text_indentation
+"""
 
 
-def text_indentation(prmText):
-    """ text_indentation function
-
-    this function split a text by punctuation
-
-    Attributes:
-        prmText: text to split
+def text_indentation(text):
+    """text_indentation
+    Arguments:
+        text {[type]} -- [description]
+    Raises:
+        TypeError: [description]
     """
-    if not isinstance(prmText, str):
+    if type(text) is not str:
         raise TypeError("text must be a string")
 
-    prmText = prmText.strip()
-    prmText = prmText.replace(".", ".\n")
-    prmText = prmText.replace("?", "?\n")
-    prmText = prmText.replace(":", ":\n")
-    prmText = prmText.rstrip()
-
-    if len(prmText) == 0:
-        return
-
-    for key, line in enumerate(list(prmText.split("\n"))):
-        line = line.strip()
-        print("{}".format(line))
-        if key < len(list(prmText.split("\n"))) - 1:
+    text = text.rstrip(' ')
+    for i in range(len(text)):
+        if text[i] == ' ' and text[i + 1] == ' ':
+            continue
+        if text[i] is ' ' and text[i - 1] is '.':
+            continue
+        if text[i] is ' ' and text[i - 1] is '?':
+            continue
+        if text[i] is ' ' and text[i - 1] is ':':
+            continue
+        if text[i] is ' ' and text[i - 1] is ' ':
+            continue
+        print(text[i], end='')
+        if text[i] == '.' or text[i] == '?' or text[i] == ':':
+            print()
             print()

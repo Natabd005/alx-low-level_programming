@@ -1,54 +1,88 @@
 #!/usr/bin/python3
-""" matrix_mul module """
+"""
+Module composed by a function that multiplies 2 matrices
+"""
 
 
-def matrix_mul(prmMatrixA, prmMatrixB):
-    """ matrix_mul function
-    this function multiply one matrix by a second one
-    Attributes:
-        prmMatrixA: first matrix
-        prmMatrixB: second matrix
+def matrix_mul(m_a, m_b):
+    """ Function that multiplies 2 matrices
+    Args:
+        m_a: matrix a
+        m_b: matrix b
+    Returns:
+        result of the multiplication
+    Raises:
+        TypeError: if m_a or m_b aren't a list
+        TypeError: if m_a or m_b aren't a list of a lists
+        ValueError: if m_a or m_b are empty
+        TypeError: if the lists of m_a or m_b don't have integers or floats
+        TypeError: if the rows of m_a or m_b don't have the same size
+        ValueError: if m_a and m_b can't be multiplied
     """
-    if prmMatrixA is None:
-        raise TypeError("m_a should be indicate")
-    if prmMatrixB is None:
-        raise TypeError("m_b should be indicate")
-    if not isinstance(prmMatrixA, list):
+
+    if not isinstance(m_a, list):
         raise TypeError("m_a must be a list")
-    if not isinstance(prmMatrixB, list):
+
+    if not isinstance(m_b, list):
         raise TypeError("m_b must be a list")
-    if not all(isinstance(ele, list) for ele in prmMatrixA):
-        raise TypeError("m_a must be a list of lists")
-    if not all(isinstance(ele, list) for ele in prmMatrixB):
-        raise TypeError("m_b must be a list of lists")
-    if len(prmMatrixA) == 0 or len(prmMatrixA[0]) == 0:
-        raise TypeError("m_a can't be empty")
-    if len(prmMatrixB) == 0 or len(prmMatrixB[0]) == 0:
-        raise TypeError("m_b can't be empty")
 
-    columnLenA = len(prmMatrixA[0])
+    for elems in m_a:
+        if not isinstance(elems, list):
+            raise TypeError("m_a must be a list of lists")
 
-    for row in range(len(prmMatrixA)):
-        if len(prmMatrixA[row]) != columnLenA:
+    for elems in m_b:
+        if not isinstance(elems, list):
+            raise TypeError("m_b must be a list of lists")
+
+    if len(m_a) == 0 or (len(m_a) == 1 and len(m_a[0]) == 0):
+        raise ValueError("m_a can't be empty")
+
+    if len(m_b) == 0 or (len(m_b) == 1 and len(m_b[0]) == 0):
+        raise ValueError("m_b can't be empty")
+
+    for lists in m_a:
+        for elems in lists:
+            if not type(elems) in (int, float):
+                raise TypeError("m_a should contain only integers or floats")
+
+    for lists in m_b:
+        for elems in lists:
+            if not type(elems) in (int, float):
+                raise TypeError("m_b should contain only integers or floats")
+
+    length = 0
+
+    for elems in m_a:
+        if length != 0 and length != len(elems):
             raise TypeError("each row of m_a must be of the same size")
+        length = len(elems)
 
-    columnLenB = len(prmMatrixB[0])
+    length = 0
 
-    for row in range(len(prmMatrixB)):
-        if len(prmMatrixB[row]) != columnLenB:
+    for elems in m_b:
+        if length != 0 and length != len(elems):
             raise TypeError("each row of m_b must be of the same size")
+        length = len(elems)
 
-    # initialize result matrix
-    result = [
-        [0 for x in range(len(prmMatrixA[0]))] for y in range(len(prmMatrixA))
-        ]
+    if len(m_a[0]) != len(m_b):
+        raise ValueError("m_a and m_b can't be multiplied")
 
-    # iterate through rows of prmMatrixA
-    for i in range(len(prmMatrixA)):
-        # iterate through columns of prmMatrixB
-        for j in range(len(prmMatrixB[0])):
-            # iterate through rows of prmMatrixB
-            for k in range(len(prmMatrixB)):
-                result[i][j] += prmMatrixA[i][k] * prmMatrixB[k][j]
+    r1 = []
+    i1 = 0
 
-    return result
+    for a in m_a:
+        r2 = []
+        i2 = 0
+        num = 0
+        while (i2 < len(m_b[0])):
+            num += a[i1] * m_b[i1][i2]
+            if i1 == len(m_b) - 1:
+                i1 = 0
+                i2 += 1
+                r2.append(num)
+                num = 0
+            else:
+                i1 += 1
+        r1.append(r2)
+
+    return r1

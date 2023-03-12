@@ -1,37 +1,39 @@
 #!/usr/bin/python3
-""" matrix_divided module """
+# -*- coding: utf-8 -*-
+"""Mudule
+"""
 
 
-def matrix_divided(prmMatrix, prmDiv):
-    """ matrix_divided function
-    Attributes:
-        prmMatrix: matrix of value
-        prmDiv: number to divide each value of the matrix
+def matrix_divided(matrix, div):
+    """matrix_divided
+    Arguments:
+        matrix {[type]} -- [description]
+        div {[type]} -- [description]
     """
-    errTypeMsg = "matrix must be a matrix (list of lists) of integers/floats"
-    errSameSizeMsg = "Each row of the matrix must have the same size"
-    if not all(isinstance(ele, list) for ele in prmMatrix):
-        raise TypeError(errTypeMsg)
 
-    new = prmMatrix.copy()
-    rowLen = len(new)
+    e1 = "matrix must be a matrix (list of lists) of integers/floats"
+    e2 = "Each row of the matrix must have the same size"
+    e3 = "div must be a number"
+    e4 = "division by zero"
 
-    if rowLen > 0:
-        columnLen = len(new[0])
+    if type(matrix) != list:
+        raise TypeError(e1)
+    for row in matrix:
+        if type(row) != list:
+            raise TypeError(e1)
 
-        for row in range(len(new)):
-            if not all(isinstance(ele, (int, float)) for ele in new[row]):
-                raise TypeError(errTypeMsg)
-            if len(new[row]) != columnLen:
-                raise TypeError(errSameSizeMsg)
+    size_row = len(matrix[0])
 
-        if not isinstance(prmDiv, int):
-            raise TypeError("div must be a number")
-        if prmDiv == 0:
-            raise ZeroDivisionError("division by zero")
+    for row in matrix:
+        if len(row) != size_row:
+            raise TypeError(e2)
+        for elem in row:
+            if type(elem) not in [int, float]:
+                raise TypeError(e1)
+    if type(div) not in [int, float]:
+        raise TypeError(e3)
 
-        for row in range(len(new)):
-            for column in range(len(new[row])):
-                new[row][column] = round(float(new[row][column] / prmDiv), 2)
+    if div == 0:
+        raise ZeroDivisionError(e4)
 
-    return new
+    return [[round(elem / div, 2) for elem in row]for row in matrix]
